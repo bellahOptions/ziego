@@ -45,7 +45,7 @@
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded bg-gray-50 flex-shrink-0">
                                     @if($item->product && $item->product->primaryImage)
-                                        <img src="{{ `$item->product->primaryImage->url }}" class="w-full h-full object-cover rounded">
+                                        <img src="{{ $item->product->primaryImage->url }}" class="w-full h-full object-cover rounded">
                                     @endif
                                 </div>
                                 <div>

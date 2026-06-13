@@ -54,7 +54,7 @@
                         <div class="flex items-center gap-3">
                             <div class="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-50">
                                 @if($product->primaryImage)
-                                    <img src="{{ `$product->primaryImage->url }}" alt="" class="w-full h-full object-cover">
+                                    <img src="{{ $product->primaryImage->url }}" alt="" class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center">
                                         <svg class="w-5 h-5 opacity-20" style="color: var(--brand);" fill="currentColor" viewBox="0 0 24 24"><path d="M7 19H5V8H3V6h2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2h2v2h-2v11h-2v-1H7v1z"/></svg>

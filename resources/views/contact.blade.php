@@ -57,24 +57,42 @@
                 <div>
                     <h2 class="text-2xl font-bold mb-6" style="font-family: 'Calistoga', serif; color: var(--brand-dark);">Contact Information</h2>
                     <div class="space-y-5">
-                        @foreach([
-                            ['☎', 'Phone / WhatsApp', '09137652910', 'tel:09137652910'],
-                            ['✉', 'Email', 'info@ziegofurniture.com', 'mailto:info@ziegofurniture.com'],
-                            ['📍', 'Location', 'Nigeria — Nationwide Delivery', null],
-                            ['🏢', 'RC Number', '9093335', null],
-                        ] as [$icon, $label, $value, $link])
                         <div class="flex gap-4 p-4 rounded-xl border border-gray-100 bg-white card-hover">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-xl" style="background: var(--brand-pale);">{{ $icon }}</div>
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: var(--brand-pale);">
+                                <svg class="w-5 h-5" style="color: var(--brand);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                            </div>
                             <div>
-                                <div class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-0.5">{{ $label }}</div>
-                                @if($link)
-                                    <a href="{{ $link }}" class="font-semibold hover:underline" style="color: var(--brand-dark);">{{ $value }}</a>
-                                @else
-                                    <div class="font-semibold" style="color: var(--brand-dark);">{{ $value }}</div>
-                                @endif
+                                <div class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Phone / WhatsApp</div>
+                                <a href="tel:09137652910" class="font-semibold hover:underline" style="color: var(--brand-dark);">09137652910</a>
                             </div>
                         </div>
-                        @endforeach
+                        <div class="flex gap-4 p-4 rounded-xl border border-gray-100 bg-white card-hover">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: var(--brand-pale);">
+                                <svg class="w-5 h-5" style="color: var(--brand);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Email</div>
+                                <a href="mailto:info@ziegofurniture.com" class="font-semibold hover:underline" style="color: var(--brand-dark);">info@ziegofurniture.com</a>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 p-4 rounded-xl border border-gray-100 bg-white card-hover">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: var(--brand-pale);">
+                                <svg class="w-5 h-5" style="color: var(--brand);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Location</div>
+                                <div class="font-semibold" style="color: var(--brand-dark);">Nigeria — Nationwide Delivery</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 p-4 rounded-xl border border-gray-100 bg-white card-hover">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: var(--brand-pale);">
+                                <svg class="w-5 h-5" style="color: var(--brand);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-0.5">RC Number</div>
+                                <div class="font-semibold" style="color: var(--brand-dark);">9093335</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

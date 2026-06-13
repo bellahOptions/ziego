@@ -111,7 +111,7 @@
             <div class="flex flex-wrap gap-3">
                 @foreach($product->images as $img)
                 <div class="relative">
-                    <img src="{{ `$img->url }}" class="w-24 h-20 object-cover rounded-lg border-2 {{ $img->is_primary ? 'border-orange-500' : 'border-gray-200' }}">
+                    <img src="{{ $img->url }}" class="w-24 h-20 object-cover rounded-lg border-2 {{ $img->is_primary ? 'border-orange-500' : 'border-gray-200' }}">
                     @if($img->is_primary)
                         <span class="absolute top-1 left-1 bg-orange-500 text-white text-xs px-1 rounded">Primary</span>
                     @endif

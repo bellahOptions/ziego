@@ -79,7 +79,7 @@
                             <div class="flex gap-3">
                                 <div class="w-14 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-50">
                                     @if($item->product->primaryImage)
-                                        <img src="{{ `$item->product->primaryImage->url }}" alt="" class="w-full h-full object-cover">
+                                        <img src="{{ $item->product->primaryImage->url }}" alt="" class="w-full h-full object-cover">
                                     @endif
                                 </div>
                                 <div class="flex-1 min-w-0">

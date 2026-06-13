@@ -7,6 +7,25 @@
     <title>@yield('title', 'Ziego Furniture & Interiors — Furniture That Speaks Style')</title>
     <meta name="description" content="@yield('description', 'Premium furniture and interior solutions. Bulk orders, wholesale prices, nationwide delivery across Nigeria. RC: 9093335.')">
 
+    {{-- Favicons --}}
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#341C02">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#341C02">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -24,7 +43,7 @@
 
             {{-- Logo --}}
             <a href="{{ route('home') }}" class="flex items-center flex-shrink-0">
-                <img src="/logo-04.svg" alt="Ziego Furniture & Interiors" class="h-10 w-auto">
+                <img src="/logo-dark-13.png" alt="Ziego Furniture & Interiors" class="h-10 w-auto">
             </a>
 
             {{-- Desktop Nav --}}
