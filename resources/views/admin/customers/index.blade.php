@@ -4,6 +4,10 @@
 @section('content')
 <div class="flex items-center justify-between mb-6">
     <h1 class="text-xl font-bold" style="color: var(--brand-dark);">Customers</h1>
+    <a href="{{ route('admin.customers.create') }}" class="btn-primary btn-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        Add Customer
+    </a>
 </div>
 
 <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 mb-4">

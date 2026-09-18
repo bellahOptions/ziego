@@ -20,13 +20,14 @@ class DatabaseSeeder extends Seeder
     {
         // Users
         User::create([
-            'name'     => 'Super Admin',
+            'name'     => 'IT',
             'email'    => 'admin@ziegofurniture.com',
             'password' => Hash::make('password'),
             'role'     => 'super_admin',
             'phone'    => '09137652910',
             'company'  => 'Ziego Furniture & Interiors',
             'is_active' => true,
+            'email_verified_at' => now(),
         ]);
         User::create([
             'name'     => 'Store Manager',
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
             'role'     => 'admin',
             'is_active' => true,
+            'email_verified_at' => now(),
         ]);
         User::create([
             'name'     => 'John Okafor',
@@ -43,6 +45,7 @@ class DatabaseSeeder extends Seeder
             'phone'    => '08012345678',
             'company'  => 'Okafor Ventures Ltd',
             'is_active' => true,
+            'email_verified_at' => now(),
         ]);
 
         // Categories with Unsplash images
@@ -72,15 +75,15 @@ class DatabaseSeeder extends Seeder
             // ── LIVING ROOM (12) ──────────────────────────────────────────────────────
             ['Royal 3-Seater Sofa',           180000, null,   'Living Room', 'Velvet Fabric',      'Grey/Cream',     '220cm x 90cm x 80cm', true,  8,  false, 1, 'https://images.unsplash.com/photo-1555041469-9b86f7c9c3dd?w=800&q=80&fit=crop'],
             ['Luxury L-Shape Corner Sofa',    320000, 290000, 'Living Room', 'Premium Leather',    'Chocolate Brown', '280cm x 200cm x 85cm', true, 5,  true,  1, 'https://images.unsplash.com/photo-1586023492157-ac6decaa0b0c?w=800&q=80&fit=crop'],
-            ['Accent Armchair',                65000, null,   'Living Room', 'Boucle Fabric',      'Cream/Gold',     '75cm x 80cm x 90cm',  false, 15, false, 1, 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=800&q=80&fit=crop'],
-            ['Wooden Coffee Table',            45000, 38000,  'Living Room', 'Solid Walnut',       'Natural Brown',  '120cm x 60cm x 45cm', false, 20, false, 1, 'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=800&q=80&fit=crop'],
+            ['Accent Armchair',                65000, null,   'Living Room', 'Boucle Fabric',      'Cream/Gold',     '75cm x 80cm x 90cm',  false, 15, false, 1, '/product (37).jpg'],
+            ['Wooden Coffee Table',            45000, 38000,  'Living Room', 'Solid Walnut',       'Natural Brown',  '120cm x 60cm x 45cm', false, 20, false, 1, '/product (60).jpg'],
             ['TV Entertainment Unit',          95000, null,   'Living Room', 'MDF/Glass',          'White/Oak',      '180cm x 45cm x 55cm', false, 12, false, 1, 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80&fit=crop'],
             ['Chesterfield 2-Seater',         145000, null,   'Living Room', 'Full-Grain Leather', 'Burgundy',       '175cm x 80cm x 80cm', true,  6,  false, 1, 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80&fit=crop'],
             ['Modular Sofa Set (5-Seater)',   480000, 420000, 'Living Room', 'Linen Blend',        'Beige/Grey',     '320cm x 180cm x 80cm', false, 3, true,  2, 'https://images.unsplash.com/photo-1555041469-9b86f7c9c3dd?w=800&q=80&fit=crop'],
-            ['Glass-Top Side Table',           28000, null,   'Living Room', 'Tempered Glass',     'Clear/Chrome',   '45cm x 45cm x 55cm', false, 25, false, 1, 'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=800&q=80&fit=crop'],
+            ['Glass-Top Side Table',           28000, null,   'Living Room', 'Tempered Glass',     'Clear/Chrome',   '45cm x 45cm x 55cm', false, 25, false, 1, '/product (64).jpg'],
             ['Floor Lamp Stand',               18000, null,   'Living Room', 'Metal/Fabric',       'Gold/White',     '170cm tall',          false, 30, false, 1, 'https://images.unsplash.com/photo-1586023492157-ac6decaa0b0c?w=800&q=80&fit=crop'],
             ['Bookshelf (5-Tier)',             72000, 65000,  'Living Room', 'Solid Pine',         'Walnut',         '80cm x 30cm x 180cm', false, 10, false, 1, 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=800&q=80&fit=crop'],
-            ['Reception Lounge Set',          380000, 350000, 'Living Room', 'Leather & Chrome',   'Black',          '3-piece set',         true,  3,  true,  1, 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80&fit=crop'],
+            ['Reception Lounge Set',          380000, 350000, 'Living Room', 'Leather & Chrome',   'Black',          '3-piece set',         true,  3,  true,  1, '/product (52).jpg'],
             ['Ottoman Storage Bench',          42000, null,   'Living Room', 'Fabric',             'Navy Blue',      '110cm x 45cm x 45cm', false, 18, false, 1, 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=800&q=80&fit=crop'],
 
             // ── BEDROOM (10) ──────────────────────────────────────────────────────────
@@ -98,24 +101,24 @@ class DatabaseSeeder extends Seeder
             // ── DINING ROOM (8) ───────────────────────────────────────────────────────
             ['6-Seater Teak Dining Set',      420000, null,   'Dining Room', 'Teak Wood',          'Natural Teak',   '180cm x 90cm x 76cm', true,  4,  true,  1, 'https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=800&q=80&fit=crop'],
             ['8-Seater Glass Dining Table',   380000, 340000, 'Dining Room', 'Tempered Glass',     'Black/Clear',    '200cm x 100cm x 76cm', false, 3, true,  1, 'https://images.unsplash.com/photo-1567538096630-e97773dcc7ce?w=800&q=80&fit=crop'],
-            ['Dining Chair (set of 6)',        180000, null,   'Dining Room', 'Fabric/Wood',        'Grey/Oak',       '45cm x 50cm x 90cm',  false, 10, true,  6, 'https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=800&q=80&fit=crop'],
+            ['Dining Chair (set of 6)',        180000, null,   'Dining Room', 'Fabric/Wood',        'Grey/Oak',       '45cm x 50cm x 90cm',  false, 10, true,  6, '/product (68).jpg'],
             ['Bar Stool (set of 4)',            95000, 85000,  'Dining Room', 'Leather/Metal',      'Caramel/Chrome', '40cm x 40cm x 75cm',  false, 8,  false, 4, 'https://images.unsplash.com/photo-1567538096630-e97773dcc7ce?w=800&q=80&fit=crop'],
-            ['China Cabinet/Display Unit',    165000, null,   'Dining Room', 'Solid Wood/Glass',   'Dark Oak',       '120cm x 45cm x 200cm', false, 5, false, 1, 'https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=800&q=80&fit=crop'],
+            ['China Cabinet/Display Unit',    165000, null,   'Dining Room', 'Solid Wood/Glass',   'Dark Oak',       '120cm x 45cm x 200cm', false, 5, false, 1, '/product (24).jpg'],
             ['Round Marble Dining Table',     520000, 480000, 'Dining Room', 'Marble/Brass',       'White/Gold',     '130cm diameter x 76cm', true, 2, false, 1, 'https://images.unsplash.com/photo-1567538096630-e97773dcc7ce?w=800&q=80&fit=crop'],
-            ['Buffet/Sideboard',              145000, null,   'Dining Room', 'Engineered Wood',    'Walnut/Matt Black','160cm x 45cm x 80cm', false, 6, false, 1, 'https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=800&q=80&fit=crop'],
+            ['Buffet/Sideboard',              145000, null,   'Dining Room', 'Engineered Wood',    'Walnut/Matt Black','160cm x 45cm x 80cm', false, 6, false, 1, '/product (20).jpg'],
             ['4-Seater Compact Dining Set',   185000, 165000, 'Dining Room', 'Rubber Wood',        'White/Beige',    '120cm x 75cm x 76cm', false, 7,  false, 1, 'https://images.unsplash.com/photo-1567538096630-e97773dcc7ce?w=800&q=80&fit=crop'],
 
             // ── OFFICE (10) ───────────────────────────────────────────────────────────
-            ['Executive High-Back Chair',      85000, null,   'Office',      'Premium Leather',    'Black/Brown',    '70cm x 70cm x 120cm', true,  20, false, 1, 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=800&q=80&fit=crop'],
-            ['L-Shaped Executive Desk',       250000, 220000, 'Office',      'Mahogany Veneer',    'Dark Brown',     '180cm x 150cm x 75cm', true, 10, false, 1, 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&q=80&fit=crop'],
-            ['Conference Table (10-seat)',     650000, null,   'Office',      'Walnut Veneer',      'Walnut/Chrome',  '300cm x 120cm x 75cm', false, 3, true,  1, 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=800&q=80&fit=crop'],
-            ['Ergonomic Mesh Chair',           55000, 48000,  'Office',      'Mesh/Nylon',         'Black',          '65cm x 65cm x 115cm', false, 35, true,  5, 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&q=80&fit=crop'],
-            ['4-Drawer Filing Cabinet',        48000, null,   'Office',      'Steel',              'Graphite Grey',  '47cm x 62cm x 132cm', false, 25, true,  3, 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=800&q=80&fit=crop'],
-            ['Manager Standing Desk',         145000, 125000, 'Office',      'Engineered Wood',    'White/Silver',   '140cm x 70cm x 75-120cm', false,8, false,1, 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&q=80&fit=crop'],
-            ['Reception Counter Desk',        280000, null,   'Office',      'MDF/Laminate',       'White/Chrome',   '180cm x 70cm x 110cm', false, 4, true,  1, 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=800&q=80&fit=crop'],
-            ['Bookcase/Storage Cabinet',       68000, null,   'Office',      'Particle Board',     'White/Beech',    '90cm x 30cm x 190cm', false, 15, false, 1, 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&q=80&fit=crop'],
-            ['Visitor Chair (set of 4)',        96000, 85000,  'Office',      'Fabric/Metal',       'Charcoal/Silver','52cm x 55cm x 80cm',  false, 12, true,  4, 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=800&q=80&fit=crop'],
-            ['Complete Office Bundle (10)',   980000, 880000, 'Office',      'Mixed Premium',      'Black/Walnut',   'Full office setup',   true,  2,  true,  1, 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&q=80&fit=crop'],
+            ['Executive High-Back Chair',      85000, null,   'Office',      'Premium Leather',    'Black/Brown',    '70cm x 70cm x 120cm', true,  20, false, 1, '/product (13).jpg'],
+            ['L-Shaped Executive Desk',       250000, 220000, 'Office',      'Mahogany Veneer',    'Dark Brown',     '180cm x 150cm x 75cm', true, 10, false, 1, '/product (4).jpg'],
+            ['Conference Table (10-seat)',     650000, null,   'Office',      'Walnut Veneer',      'Walnut/Chrome',  '300cm x 120cm x 75cm', false, 3, true,  1, '/product (9).jpg'],
+            ['Ergonomic Mesh Chair',           55000, 48000,  'Office',      'Mesh/Nylon',         'Black',          '65cm x 65cm x 115cm', false, 35, true,  5, '/product (33).jpg'],
+            ['4-Drawer Filing Cabinet',        48000, null,   'Office',      'Steel',              'Graphite Grey',  '47cm x 62cm x 132cm', false, 25, true,  3, '/product (35).jpg'],
+            ['Manager Standing Desk',         145000, 125000, 'Office',      'Engineered Wood',    'White/Silver',   '140cm x 70cm x 75-120cm', false,8, false,1, '/product (38).jpg'],
+            ['Reception Counter Desk',        280000, null,   'Office',      'MDF/Laminate',       'White/Chrome',   '180cm x 70cm x 110cm', false, 4, true,  1, '/product (19).jpg'],
+            ['Bookcase/Storage Cabinet',       68000, null,   'Office',      'Particle Board',     'White/Beech',    '90cm x 30cm x 190cm', false, 15, false, 1, '/product (29).jpg'],
+            ['Visitor Chair (set of 4)',        96000, 85000,  'Office',      'Fabric/Metal',       'Charcoal/Silver','52cm x 55cm x 80cm',  false, 12, true,  4, '/product (12).jpg'],
+            ['Complete Office Bundle (10)',   980000, 880000, 'Office',      'Mixed Premium',      'Black/Walnut',   'Full office setup',   true,  2,  true,  1, '/product (58).jpg'],
 
             // ── OUTDOOR (5) ───────────────────────────────────────────────────────────
             ['6-Piece Rattan Patio Set',      265000, 240000, 'Outdoor',     'PE Rattan/Aluminium','Brown/Cream',    '4 chairs + table + sofa', true, 5, false, 1, 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&fit=crop'],

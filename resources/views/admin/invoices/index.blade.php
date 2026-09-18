@@ -4,6 +4,10 @@
 @section('content')
 <div class="flex items-center justify-between mb-6">
     <h1 class="text-xl font-bold" style="color: var(--brand-dark);">Invoices</h1>
+    <a href="{{ route('admin.invoices.create') }}" class="btn-primary btn-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        Create Invoice
+    </a>
 </div>
 
 <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 mb-4">
@@ -55,9 +59,16 @@
                         {{ $invoice->due_date->format('M d, Y') }}
                     </td>
                     <td>
-                        <div class="flex gap-2">
+                        <div class="flex items-center gap-2">
                             <a href="{{ route('admin.invoices.show', $invoice) }}" class="text-xs font-medium hover:underline" style="color: var(--brand);">View</a>
                             <a href="{{ route('admin.invoices.download', $invoice) }}" class="text-xs font-medium text-gray-500 hover:text-gray-700">PDF</a>
+                            @if($invoice->status === 'draft')
+                            <form action="{{ route('admin.invoices.status', $invoice) }}" method="POST">
+                                @csrf @method('PATCH')
+                                <input type="hidden" name="status" value="sent">
+                                <button type="submit" class="text-xs font-medium hover:underline" style="color: var(--brand);">Issue</button>
+                            </form>
+                            @endif
                         </div>
                     </td>
                 </tr>

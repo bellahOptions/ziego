@@ -25,6 +25,11 @@ class CustomerController extends Controller
         return view('admin.customers.index', compact('customers'));
     }
 
+    public function create()
+    {
+        return view('admin.customers.create');
+    }
+
     public function show(User $customer)
     {
         abort_unless($customer->role === 'customer', 404);

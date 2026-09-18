@@ -9,9 +9,6 @@
 
             <div class="p-8">
                 <div class="text-center mb-8">
-                    <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background: var(--brand);">
-                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M7 19H5V8H3V6h2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2h2v2h-2v11h-2v-1H7v1z"/></svg>
-                    </div>
                     <h1 class="text-2xl font-bold" style="font-family: 'Calistoga', serif; color: var(--brand-dark);">Create Account</h1>
                     <p class="text-gray-400 text-sm mt-1">Join Ziego Furniture & Interiors</p>
                 </div>

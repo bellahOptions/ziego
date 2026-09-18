@@ -45,8 +45,12 @@
                 <div class="p-4 flex gap-3 overflow-x-auto">
                     @foreach($order->items->take(4) as $item)
                     <div class="text-center flex-shrink-0">
-                        <div class="w-14 h-14 rounded-lg bg-gray-50 flex items-center justify-center mb-1">
-                            <svg class="w-6 h-6 opacity-20" style="color: var(--brand);" fill="currentColor" viewBox="0 0 24 24"><path d="M7 19H5V8H3V6h2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2h2v2h-2v11h-2v-1H7v1z"/></svg>
+                        <div class="w-14 h-14 rounded-lg bg-gray-50 overflow-hidden flex items-center justify-center mb-1">
+                            @if($item->product?->primaryImage)
+                                <img src="{{ $item->product->primaryImage->url }}" alt="{{ $item->product_name }}" class="w-full h-full object-cover">
+                            @else
+                                <svg class="w-6 h-6 opacity-20" style="color: var(--brand);" fill="currentColor" viewBox="0 0 24 24"><path d="M7 19H5V8H3V6h2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2h2v2h-2v11h-2v-1H7v1z"/></svg>
+                            @endif
                         </div>
                         <p class="text-xs text-gray-500 max-w-[56px] truncate">{{ $item->product_name }}</p>
                     </div>

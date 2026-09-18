@@ -1,14 +1,6 @@
 // Ziego Furniture & Interiors — App JS
 
 // ========================
-// CART COUNT UPDATE
-// ========================
-function updateCartCount() {
-    fetch('/cart', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-        .catch(() => {});
-}
-
-// ========================
 // SMOOTH REVEAL ON SCROLL (Intersection Observer)
 // ========================
 document.addEventListener('DOMContentLoaded', () => {

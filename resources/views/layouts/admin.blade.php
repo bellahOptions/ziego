@@ -6,7 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin') — Ziego Furniture Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>[x-cloak] { display: none !important; }</style>
 </head>
 <body class="antialiased" x-data="{ sidebarOpen: true, mobileOpen: false }">
@@ -19,13 +18,8 @@
     {{-- Logo --}}
     <div class="p-5 border-b" style="border-color: rgba(255,255,255,0.08);">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background: var(--brand);">
-                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M7 19H5V8H3V6h2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2h2v2h-2v11h-2v-1H7v1z"/></svg>
-            </div>
-            <div>
-                <div class="text-white font-bold text-sm">ZIEGO</div>
-                <div class="text-xs" style="color: var(--gold); letter-spacing: 0.1em;">ADMIN PANEL</div>
-            </div>
+            <img src="/logo-04.svg" alt="Ziego" class="h-9 w-auto brightness-0 invert">
+            
         </a>
     </div>
 
@@ -122,7 +116,6 @@
             <button @click="mobileOpen = !mobileOpen" class="lg:hidden p-2 text-gray-500 hover:text-gray-700">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
-            <h2 class="font-semibold text-gray-800">@yield('title', 'Dashboard')</h2>
         </div>
         <div class="flex items-center gap-3">
             @if(session('success') || session('error'))
@@ -146,6 +139,24 @@
     <main class="p-6">
         @yield('content')
     </main>
+</div>
+
+{{-- LIVEWIRE TOASTS --}}
+<div class="fixed top-4 right-4 z-50 max-w-sm space-y-2"
+     x-data="{ toasts: [] }"
+     x-on:notify.window="
+        let id = Date.now() + Math.random();
+        toasts.push({ id, type: $event.detail.type ?? 'success', message: $event.detail.message ?? '' });
+        setTimeout(() => { toasts = toasts.filter(t => t.id !== id) }, 4000);
+     ">
+    <template x-for="toast in toasts" :key="toast.id">
+        <div x-show="true"
+             x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0"
+             x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+             :class="toast.type === 'error' ? 'alert-error' : 'alert-success'" class="flex items-center gap-3 shadow-lg text-xs px-3 py-2">
+            <span x-text="toast.message"></span>
+        </div>
+    </template>
 </div>
 
 @stack('scripts')

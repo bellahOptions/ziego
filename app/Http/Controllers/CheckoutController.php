@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderConfirmation;
 use App\Models\Cart;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $cart = Cart::with('items.product.primaryImage')
-            ->where('user_id', auth()->id())
-            ->firstOrFail();
+            ->firstOrCreate(['user_id' => auth()->id()]);
 
         if ($cart->items->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
@@ -42,14 +39,15 @@ class CheckoutController extends Controller
         ]);
 
         $cart = Cart::with('items.product')
-            ->where('user_id', auth()->id())
-            ->firstOrFail();
+            ->firstOrCreate(['user_id' => auth()->id()]);
 
         if ($cart->items->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
 
-        DB::transaction(function () use ($request, $cart) {
+        $order = null;
+
+        DB::transaction(function () use ($request, $cart, &$order) {
             $subtotal = $cart->items->sum(fn($i) => $i->product->current_price * $i->quantity);
 
             $order = Order::create([
@@ -99,6 +97,15 @@ class CheckoutController extends Controller
 
             session(['last_order_id' => $order->id]);
         });
+
+        $order->load('items', 'invoice', 'user');
+
+        try {
+            $recipient = $order->shipping_email ?: $order->user->email;
+            Mail::to($recipient)->cc(User::adminEmails())->send(new OrderConfirmation($order));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         return redirect()->route('orders.index')->with('success', 'Order placed successfully! We will confirm your order soon.');
     }

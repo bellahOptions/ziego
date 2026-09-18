@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
@@ -16,33 +19,51 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
-Route::post('/contact', [HomeController::class, 'sendContact'])->name('contact.send');
+Route::post('/contact', [HomeController::class, 'sendContact'])->middleware('throttle:5,1')->name('contact.send');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/showroom', [ShowroomController::class, 'index'])->name('showroom');
 
-// Cart
+// Cart (mutations are handled client-side by Livewire components, no page reload)
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-Route::patch('/cart/{item}', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/{item}', [CartController::class, 'remove'])->name('cart.remove');
 
 // Auth
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:10,1');
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [RegisterController::class, 'register']);
+    Route::post('/register', [RegisterController::class, 'register'])->middleware('throttle:10,1');
+
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'show'])->name('password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'send'])->middleware('throttle:5,1')->name('password.email');
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'show'])->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'update'])->middleware('throttle:5,1')->name('password.update');
 });
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Customer authenticated routes
+// Wishlist
+Route::get('/wishlist', function () {
+    return view('wishlist.index');
+})->middleware('auth')->name('wishlist.index');
+
+// Email verification
 Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [VerificationController::class, 'notice'])->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+    Route::post('/email/verification-notification', [VerificationController::class, 'resend'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+});
+
+// Customer authenticated routes
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->middleware('throttle:10,1')->name('checkout.store');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
@@ -52,7 +73,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin routes
-Route::prefix('admin')->name('admin.')->middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', \App\Http\Middleware\AdminMiddleware::class])->group(function () {
     Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
 
     // Products
@@ -72,11 +93,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', \App\Http\Middleware
     // Orders
     Route::get('orders', [Admin\OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [Admin\OrderController::class, 'show'])->name('orders.show');
-    Route::patch('orders/{order}/status', [Admin\OrderController::class, 'updateStatus'])->name('orders.status');
     Route::post('orders/{order}/invoice', [Admin\OrderController::class, 'generateInvoice'])->name('orders.invoice');
 
     // Invoices
     Route::get('invoices', [Admin\InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('invoices/create', [Admin\InvoiceController::class, 'create'])->name('invoices.create');
     Route::get('invoices/{invoice}', [Admin\InvoiceController::class, 'show'])->name('invoices.show');
     Route::patch('invoices/{invoice}/status', [Admin\InvoiceController::class, 'updateStatus'])->name('invoices.status');
     Route::get('invoices/{invoice}/download', [Admin\InvoiceController::class, 'download'])->name('invoices.download');
@@ -101,6 +122,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', \App\Http\Middleware
 
     // Customers
     Route::get('customers', [Admin\CustomerController::class, 'index'])->name('customers.index');
+    Route::get('customers/create', [Admin\CustomerController::class, 'create'])->name('customers.create');
     Route::get('customers/{customer}', [Admin\CustomerController::class, 'show'])->name('customers.show');
     Route::patch('customers/{customer}/toggle', [Admin\CustomerController::class, 'toggleStatus'])->name('customers.toggle');
 });

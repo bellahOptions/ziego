@@ -194,14 +194,8 @@
                     @if($product->featured)<span class="product-badge">Featured</span>@endif
                     @if($product->sale_price)<span class="product-badge product-badge-sale" style="top: {{ $product->featured ? '2.5rem' : '0.75rem' }};">-{{ $product->discount_percentage }}%</span>@endif
                     <div class="product-actions">
-                        <form action="{{ route('cart.add') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="product-action-btn" title="Add to Cart">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                            </button>
-                        </form>
+                        <livewire:cart.add-to-cart-button :product="$product" wire:key="home-add-cart-{{ $product->id }}" />
+                        <livewire:wishlist.wishlist-button :product="$product" wire:key="home-wishlist-{{ $product->id }}" />
                         <a href="{{ route('products.show', $product->slug) }}" class="product-action-btn">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                         </a>
@@ -267,7 +261,7 @@
             </div>
             <div class="relative">
                 <div class="rounded-2xl overflow-hidden" style="border: 1px solid rgba(212,168,83,0.2); aspect-ratio: 4/3; position: relative;">
-                    <img src="https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?w=1200&q=80&fit=crop" alt="Virtual Showroom" class="w-full h-full object-cover opacity-70">
+                    <img src="/showroom.png" alt="Ziego Furniture Showroom" class="w-full h-full object-cover opacity-70">
                     <div class="absolute inset-0 flex items-center justify-center" style="background: rgba(52,28,2,0.4);">
                         <a href="{{ route('showroom') }}" class="flex flex-col items-center gap-3 text-center">
                             <div class="w-16 h-16 rounded-full flex items-center justify-center animate-float border-2 border-white/30" style="background: rgba(212,168,83,0.3); backdrop-filter: blur(8px);">

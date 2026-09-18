@@ -28,7 +28,6 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <style>[x-cloak] { display: none !important; }</style>
@@ -57,13 +56,13 @@
 
             {{-- Right side --}}
             <div class="flex items-center gap-3">
+                {{-- Wishlist --}}
+                @auth
+                    <livewire:wishlist.wishlist-icon />
+                @endauth
+
                 {{-- Cart --}}
-                <a href="{{ route('cart.index') }}" class="relative flex items-center justify-center w-10 h-10 rounded-lg text-white hover:text-yellow-400 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                    <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center" style="background: var(--gold); color: var(--brand-dark);" id="cart-count">0</span>
-                </a>
+                <livewire:cart.cart-icon />
 
                 @auth
                     <div class="relative" x-data="{ open: false }">
@@ -148,6 +147,26 @@
     @endif
 </div>
 @endif
+
+{{-- LIVEWIRE TOASTS --}}
+<div class="fixed top-24 right-4 z-50 max-w-sm space-y-2"
+     x-data="{ toasts: [] }"
+     x-on:notify.window="
+        let id = Date.now() + Math.random();
+        toasts.push({ id, type: $event.detail.type ?? 'success', message: $event.detail.message ?? '' });
+        setTimeout(() => { toasts = toasts.filter(t => t.id !== id) }, 4000);
+     ">
+    <template x-for="toast in toasts" :key="toast.id">
+        <div x-show="true" x-init="$nextTick(() => {})"
+             x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0"
+             x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+             :class="toast.type === 'error' ? 'alert-error' : 'alert-success'" class="flex items-center gap-3 shadow-lg">
+            <svg x-show="toast.type !== 'error'" class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            <svg x-show="toast.type === 'error'" class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414-1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+            <span x-text="toast.message"></span>
+        </div>
+    </template>
+</div>
 
 {{-- PAGE CONTENT --}}
 <main>

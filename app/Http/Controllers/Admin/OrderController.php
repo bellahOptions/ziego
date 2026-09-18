@@ -34,21 +34,6 @@ class OrderController extends Controller
         return view('admin.orders.show', compact('order'));
     }
 
-    public function updateStatus(Request $request, Order $order)
-    {
-        $request->validate(['status' => 'required|in:pending,confirmed,processing,shipped,delivered,cancelled,refunded']);
-
-        $data = ['status' => $request->status];
-
-        if ($request->status === 'confirmed') $data['confirmed_at'] = now();
-        if ($request->status === 'shipped')   $data['shipped_at'] = now();
-        if ($request->status === 'delivered') $data['delivered_at'] = now();
-
-        $order->update($data);
-
-        return back()->with('success', 'Order status updated to ' . ucfirst($request->status));
-    }
-
     public function generateInvoice(Order $order)
     {
         if ($order->invoice) {

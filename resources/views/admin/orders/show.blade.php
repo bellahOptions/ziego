@@ -10,18 +10,7 @@
 <div class="grid lg:grid-cols-3 gap-6">
     <div class="lg:col-span-2 space-y-5">
         {{-- Status Update --}}
-        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-            <h2 class="font-bold mb-4 text-sm" style="color: var(--brand-dark);">Update Order Status</h2>
-            <form action="{{ route('admin.orders.status', $order) }}" method="POST" class="flex gap-3">
-                @csrf @method('PATCH')
-                <select name="status" class="form-input text-sm">
-                    @foreach(['pending','confirmed','processing','shipped','delivered','cancelled','refunded'] as $s)
-                        <option value="{{ $s }}" {{ $order->status === $s ? 'selected' : '' }}>{{ ucfirst($s) }}</option>
-                    @endforeach
-                </select>
-                <button type="submit" class="btn-primary btn-sm">Update</button>
-            </form>
-        </div>
+        <livewire:admin.orders.status-form :order="$order" />
 
         {{-- Items --}}
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -72,19 +61,7 @@
 
     <div class="space-y-5">
         {{-- Status badges --}}
-        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-            <h2 class="font-bold mb-3 text-sm" style="color: var(--brand-dark);">Status</h2>
-            <div class="space-y-2">
-                <div class="flex items-center justify-between"><span class="text-sm text-gray-500">Order</span><span class="badge badge-{{ $order->status }}">{{ ucfirst($order->status) }}</span></div>
-                <div class="flex items-center justify-between"><span class="text-sm text-gray-500">Payment</span><span class="badge badge-{{ $order->payment_status }}">{{ ucfirst($order->payment_status) }}</span></div>
-            </div>
-            <div class="mt-3 pt-3 border-t border-gray-100 text-xs text-gray-400">
-                <div>Placed: {{ $order->created_at->format('M d, Y g:i A') }}</div>
-                @if($order->confirmed_at)<div>Confirmed: {{ $order->confirmed_at->format('M d, Y') }}</div>@endif
-                @if($order->shipped_at)<div>Shipped: {{ $order->shipped_at->format('M d, Y') }}</div>@endif
-                @if($order->delivered_at)<div>Delivered: {{ $order->delivered_at->format('M d, Y') }}</div>@endif
-            </div>
-        </div>
+        <livewire:admin.orders.status-badges :order="$order" />
 
         {{-- Shipping --}}
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">

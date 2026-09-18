@@ -19,6 +19,10 @@
 
                 <form action="{{ route('contact.send') }}" method="POST" class="space-y-4">
                     @csrf
+                    {{-- Honeypot: hidden from real users, bots tend to fill every field --}}
+                    <div style="position: absolute; left: -9999px;" aria-hidden="true">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off">
+                    </div>
                     <div class="grid sm:grid-cols-2 gap-4">
                         <div>
                             <label class="form-label">Your Name *</label>

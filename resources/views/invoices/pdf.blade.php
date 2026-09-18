@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <title>Invoice {{ $invoice->invoice_number }}</title>
     <style>
-        body { font-family: Arial, sans-serif; font-size: 12px; color: #1A1A1A; margin: 0; padding: 20px; }
+        body { font-family: 'DejaVu Sans', sans-serif; font-size: 12px; color: #1A1A1A; margin: 0; padding: 20px; }
         .header { background: #341C02; color: white; padding: 20px; margin-bottom: 30px; }
-        .header h1 { margin: 0; font-size: 24px; color: #D4A853; }
+        .header .logo-box { display: inline-block; background: #ffffff; padding: 10px 14px; border-radius: 6px; margin-bottom: 10px; }
         .header p { margin: 2px 0; font-size: 11px; opacity: 0.7; }
         .invoice-num { font-size: 20px; font-weight: bold; }
         .grid { display: flex; justify-content: space-between; margin-bottom: 30px; }
@@ -25,7 +25,7 @@
     <div class="header">
         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div>
-                <h1>ZIEGO FURNITURE & INTERIORS</h1>
+                <div class="logo-box"><img src="{{ public_path('logo-dark-13.png') }}" alt="Ziego Furniture & Interiors" height="28"></div>
                 <p>RC: 9093335 | Nigeria | Nationwide Delivery</p>
                 <p>Tel: 09137652910 | info@ziegofurniture.com</p>
             </div>

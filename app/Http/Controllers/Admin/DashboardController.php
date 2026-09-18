@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
@@ -34,6 +35,28 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recentOrders', 'topProducts'));
+        $rangeStart = Carbon::now()->startOfMonth()->subMonths(5);
+        $monthlyOrders = Order::where('created_at', '>=', $rangeStart)
+            ->get(['created_at', 'total', 'payment_status']);
+
+        $chartLabels = [];
+        $chartRevenue = [];
+        $chartOrders = [];
+
+        for ($i = 5; $i >= 0; $i--) {
+            $month = Carbon::now()->subMonths($i);
+            $chartLabels[] = $month->format('M Y');
+
+            $ordersInMonth = $monthlyOrders->filter(
+                fn ($order) => $order->created_at->isSameMonth($month) && $order->created_at->isSameYear($month)
+            );
+
+            $chartRevenue[] = (float) $ordersInMonth->where('payment_status', 'paid')->sum('total');
+            $chartOrders[] = $ordersInMonth->count();
+        }
+
+        return view('admin.dashboard', compact(
+            'stats', 'recentOrders', 'topProducts', 'chartLabels', 'chartRevenue', 'chartOrders'
+        ));
     }
 }

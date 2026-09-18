@@ -10,11 +10,7 @@
             <div class="h-2" style="background: linear-gradient(90deg, var(--brand-dark), var(--brand), var(--gold));"></div>
 
             <div class="p-8">
-                {{-- Logo --}}
                 <div class="text-center mb-8">
-                    <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background: var(--brand);">
-                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M7 19H5V8H3V6h2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2h2v2h-2v11h-2v-1H7v1z"/></svg>
-                    </div>
                     <h1 class="text-2xl font-bold" style="font-family: 'Calistoga', serif; color: var(--brand-dark);">Welcome Back</h1>
                     <p class="text-gray-400 text-sm mt-1">Sign in to your Ziego account</p>
                 </div>
@@ -30,6 +26,7 @@
                     <div>
                         <div class="flex justify-between items-center mb-1.5">
                             <label class="form-label mb-0">Password</label>
+                            <a href="{{ route('password.request') }}" class="text-xs font-medium hover:underline" style="color: var(--brand);">Forgot password?</a>
                         </div>
                         <input type="password" name="password" required class="form-input" placeholder="••••••••">
                         @error('password')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror

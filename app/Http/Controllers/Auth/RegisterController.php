@@ -34,8 +34,10 @@ class RegisterController extends Controller
             'role'     => 'customer',
         ]);
 
+        $user->sendEmailVerificationNotification();
+
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Welcome to Ziego Furniture!');
+        return redirect()->route('verification.notice')->with('success', 'Welcome to Ziego Furniture! Please verify your email address to continue.');
     }
 }

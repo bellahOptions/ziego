@@ -20,6 +20,15 @@ class ProductImage extends Model
         if (str_starts_with($this->path, 'http://') || str_starts_with($this->path, 'https://')) {
             return $this->path;
         }
+
+        if (str_starts_with($this->path, '/')) {
+            $encoded = collect(explode('/', ltrim($this->path, '/')))
+                ->map(fn ($segment) => rawurlencode($segment))
+                ->implode('/');
+
+            return asset($encoded);
+        }
+
         return asset('storage/' . $this->path);
     }
 }

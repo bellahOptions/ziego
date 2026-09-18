@@ -7,11 +7,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function show(Invoice $invoice)
     {
         abort_unless($invoice->order->user_id === auth()->id() || auth()->user()->isAdmin(), 403);

@@ -3,20 +3,35 @@
 namespace App\Models;
 
 use Database\Factories\UserFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'phone', 'address', 'avatar', 'company', 'is_active',
+        'name', 'email', 'password', 'role', 'phone', 'address', 'avatar', 'company', 'is_active', 'email_verified_at',
     ];
 
     protected $hidden = ['password', 'remember_token'];
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user) {
+            $user->uuid = (string) Str::uuid();
+        });
+    }
 
     protected function casts(): array
     {
@@ -45,5 +60,23 @@ class User extends Authenticatable
     public function cart()
     {
         return $this->hasOne(Cart::class);
+    }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function wishlistedProducts()
+    {
+        return $this->belongsToMany(Product::class, 'wishlists')->withTimestamps();
+    }
+
+    public static function adminEmails(): array
+    {
+        return static::whereIn('role', ['admin', 'super_admin'])
+            ->where('is_active', true)
+            ->pluck('email')
+            ->all();
     }
 }

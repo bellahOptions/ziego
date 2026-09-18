@@ -3,8 +3,7 @@
     <div class="p-8" style="background: linear-gradient(135deg, var(--brand-dark) 0%, #5A2D00 100%);">
         <div class="flex justify-between items-start">
             <div>
-                <div class="text-white font-bold text-2xl" style="font-family: 'Calistoga', serif;">ZIEGO</div>
-                <div class="text-xs mt-0.5" style="color: var(--gold); letter-spacing: 0.15em;">FURNITURE & INTERIORS</div>
+                <img src="/logo-dark-13.png" alt="Ziego Furniture & Interiors" class="h-8 w-auto brightness-0 invert">
                 <div class="text-white/50 text-xs mt-3">RC: 9093335</div>
                 <div class="text-white/50 text-xs">Nigeria | Nationwide Delivery</div>
                 <div class="text-white/50 text-xs">09137652910</div>

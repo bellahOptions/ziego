@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
@@ -16,6 +17,7 @@ class Order extends Model
         'shipping_name', 'shipping_phone', 'shipping_email', 'shipping_address',
         'shipping_city', 'shipping_state', 'notes', 'is_wholesale',
         'confirmed_at', 'shipped_at', 'delivered_at',
+        'carrier', 'tracking_number', 'tracking_url',
     ];
 
     protected $casts = [
@@ -59,10 +61,16 @@ class Order extends Model
         };
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
     protected static function boot()
     {
         parent::boot();
         static::creating(function ($order) {
+            $order->uuid = (string) Str::uuid();
             $order->order_number = 'ZF-' . strtoupper(uniqid());
         });
     }

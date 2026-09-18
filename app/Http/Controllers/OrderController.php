@@ -6,14 +6,9 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
-        $orders = Order::with('items')
+        $orders = Order::with('items.product.primaryImage')
             ->where('user_id', auth()->id())
             ->latest()
             ->paginate(10);

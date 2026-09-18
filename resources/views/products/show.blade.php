@@ -121,22 +121,15 @@
                 </div>
                 @endif
 
-                {{-- Add to cart --}}
-                @if($product->stock > 0)
-                <form action="{{ route('cart.add') }}" method="POST" class="flex gap-3 mb-4">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden">
-                        <button type="button" onclick="this.nextElementSibling.stepDown()" class="px-4 py-3 hover:bg-gray-50 text-gray-600 font-bold">−</button>
-                        <input type="number" name="quantity" value="{{ $product->min_order_qty }}" min="{{ $product->min_order_qty }}" max="{{ $product->stock }}" class="w-14 text-center border-x border-gray-200 py-3 text-sm font-medium outline-none">
-                        <button type="button" onclick="this.previousElementSibling.stepUp()" class="px-4 py-3 hover:bg-gray-50 text-gray-600 font-bold">+</button>
+                {{-- Add to cart / Wishlist --}}
+                <div class="flex gap-3 mb-4 items-stretch">
+                    @if($product->stock > 0)
+                    <div class="flex-1">
+                        <livewire:cart.add-to-cart-button :product="$product" variant="full" wire:key="pdp-add-cart-{{ $product->id }}" />
                     </div>
-                    <button type="submit" class="btn-primary flex-1 justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                        Add to Cart
-                    </button>
-                </form>
-                @endif
+                    @endif
+                    <livewire:wishlist.wishlist-button :product="$product" wire:key="pdp-wishlist-{{ $product->id }}" />
+                </div>
 
                 {{-- WhatsApp order --}}
                 <a href="https://wa.me/2349137652910?text=Hello%20Ziego%2C%20I%27m%20interested%20in%20{{ urlencode($product->name) }}" target="_blank"
@@ -172,6 +165,9 @@
                 </table>
             </div>
         </div>
+
+        {{-- Smart Compare --}}
+        <livewire:compare.similar-products :product="$product" wire:key="compare-{{ $product->id }}" />
 
         {{-- Related --}}
         @if($related->isNotEmpty())
