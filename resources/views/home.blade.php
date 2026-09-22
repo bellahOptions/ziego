@@ -315,17 +315,20 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($testimonials as $testimonial)
             <div class="testimonial-card">
-                <div class="flex gap-1 mb-4">
+                <div class="testimonial-quote-icon" aria-hidden="true">
+                    <svg style="width: 1.125rem; height: 1.125rem;" fill="currentColor" viewBox="0 0 24 24"><path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-4v-10h10z"/></svg>
+                </div>
+                <div class="flex items-center gap-1 mb-4" role="img" aria-label="Rated {{ $testimonial->rating }} out of 5 stars">
                     @for($i = 0; $i < 5; $i++)
-                        <svg class="w-4 h-4 {{ $i < $testimonial->rating ? '' : 'opacity-20' }}" style="color: var(--gold);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4 {{ $i < $testimonial->rating ? '' : 'opacity-20' }}" style="color: var(--gold);" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                     @endfor
                 </div>
-                <p class="text-gray-600 text-sm leading-relaxed mb-6 relative z-10">{{ $testimonial->content }}</p>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm" style="background: var(--brand); color: white;">{{ substr($testimonial->name, 0, 1) }}</div>
-                    <div>
-                        <div class="font-semibold text-sm" style="color: var(--brand-dark);">{{ $testimonial->name }}</div>
-                        @if($testimonial->company)<div class="text-xs text-gray-400">{{ $testimonial->company }}</div>@endif
+                <p class="testimonial-body text-sm leading-relaxed mb-5 line-clamp-5">{{ $testimonial->content }}</p>
+                <div class="testimonial-footer">
+                    <div class="testimonial-avatar">{{ substr($testimonial->name, 0, 1) }}</div>
+                    <div class="min-w-0">
+                        <div class="font-semibold text-sm truncate" style="color: var(--brand-dark);">{{ $testimonial->name }}</div>
+                        @if($testimonial->company)<div class="text-xs text-gray-400 truncate">{{ $testimonial->company }}</div>@endif
                     </div>
                 </div>
             </div>

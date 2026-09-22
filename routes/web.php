@@ -9,6 +9,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\OnePageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShowroomController;
@@ -25,6 +26,9 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/showroom', [ShowroomController::class, 'index'])->name('showroom');
+
+// Onepage experience — hero, shop, showroom, about & contact on one scrollable page
+Route::get('/onepage', [OnePageController::class, 'index'])->name('onepage');
 
 // Cart (mutations are handled client-side by Livewire components, no page reload)
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

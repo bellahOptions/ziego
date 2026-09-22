@@ -17,6 +17,15 @@
     --color-charcoal:   #1A1A1A;
 }
 
+/* Everything below lives in Tailwind's `components` layer (registered by
+   `@import 'tailwindcss'` above) instead of as unlayered CSS. Unlayered CSS
+   always beats every `@layer`-declared rule regardless of specificity or
+   source order — so without this, a class like `.btn-gold` (which sets
+   `display`) permanently overrides utilities such as `hidden`/`md:flex` on
+   the same element, breaking responsive show/hide. Wrapping here restores
+   the normal "utilities win over components" precedence. */
+@layer components {
+
 /* ========================
    BASE
 ======================== */
@@ -362,27 +371,68 @@ h1, h2, h3, .heading { font-family: 'Calistoga', Georgia, serif; }
    TESTIMONIALS
 ======================== */
 .testimonial-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
     background: white;
     border-radius: 8px;
-    padding: 2rem;
+    padding: 1.75rem 1.75rem 1.5rem;
     border: 1px solid #f0e8e0;
-    position: relative;
-    transition: all 0.3s ease;
-}
-.testimonial-card:hover {
-    box-shadow: 0 12px 40px rgba(52, 28, 2, 0.1);
-    border-color: var(--brand-light);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .testimonial-card::before {
-    content: '"';
-    font-family: 'Calistoga', serif;
-    font-size: 5rem;
-    color: var(--brand);
-    opacity: 0.15;
+    content: '';
     position: absolute;
-    top: -0.5rem;
-    left: 1.25rem;
-    line-height: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand) 0%, var(--gold) 100%);
+}
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(52, 28, 2, 0.12);
+    border-color: var(--brand-light);
+}
+.testimonial-quote-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-pale);
+    color: var(--brand);
+    flex-shrink: 0;
+    margin-bottom: 1rem;
+}
+.testimonial-body {
+    color: #4a372a;
+    flex: 1;
+}
+.testimonial-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    margin-top: auto;
+    border-top: 1px solid #f5ede5;
+}
+.testimonial-avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    background: var(--brand);
+    color: white;
+    box-shadow: 0 0 0 3px var(--brand-pale);
 }
 
 /* ========================
@@ -676,9 +726,151 @@ h1, h2, h3, .heading { font-family: 'Calistoga', Georgia, serif; }
 }
 
 /* ========================
+   ONEPAGE — anchor offset
+   (keeps section headings clear of the fixed nav on jump/scrollspy)
+======================== */
+section[id] {
+    scroll-margin-top: 4.5rem;
+}
+@media (min-width: 768px) {
+    section[id] { scroll-margin-top: 5.5rem; }
+}
+
+/* ========================
+   ONEPAGE — scrollspy nav
+======================== */
+.nav-link-onepage {
+    position: relative;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding-bottom: 0.25rem;
+    transition: color 0.25s;
+}
+.nav-link-onepage::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background: var(--gold);
+    transition: width 0.3s ease;
+}
+.nav-link-onepage:hover { color: var(--gold); }
+.nav-link-onepage.active {
+    color: var(--gold);
+}
+.nav-link-onepage.active::after {
+    width: 100%;
+}
+
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand-light), var(--gold));
+    z-index: 60;
+    transition: width 0.1s linear;
+}
+@media (prefers-reduced-motion: reduce) {
+    .scroll-progress { transition: none; }
+}
+
+/* ========================
+   ONEPAGE — filter chips
+======================== */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.125rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1.5px solid #e5d5c5;
+    color: #6b5847;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+.chip:hover {
+    border-color: var(--brand-light);
+    color: var(--brand-dark);
+}
+.chip-active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: white;
+}
+.chip-active:hover {
+    color: white;
+}
+
+/* ========================
+   ONEPAGE — horizontal rail
+======================== */
+.rail {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+}
+
+/* ========================
+   ONEPAGE — infinite auto-scroll rail
+   (duplicated content, looped via transform so it never "ends";
+   pauses on hover/keyboard focus and drops to a plain manual rail
+   for reduced-motion users)
+======================== */
+.rail-marquee-wrap {
+    overflow: hidden;
+    position: relative;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 3rem, black calc(100% - 3rem), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, black 3rem, black calc(100% - 3rem), transparent 100%);
+}
+.rail-marquee {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    animation: rail-scroll 32s linear infinite;
+}
+.rail-marquee-wrap:hover .rail-marquee,
+.rail-marquee-wrap:focus-within .rail-marquee {
+    animation-play-state: paused;
+}
+@keyframes rail-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .rail-marquee-wrap {
+        overflow-x: auto;
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+    .rail-marquee {
+        animation: none;
+        width: auto;
+    }
+}
+
+/* ========================
    PRINT
 ======================== */
 @media print {
     .no-print { display: none !important; }
     body { background: white; }
 }
+
+} /* end @layer components */

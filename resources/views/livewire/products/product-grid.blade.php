@@ -1,4 +1,38 @@
 <div>
+    @if($showToolbar)
+    <div class="mb-8 space-y-4">
+        {{-- Category chips --}}
+        <div class="flex flex-wrap gap-2">
+            <button type="button" wire:click="filterCategory('')" class="chip {{ $category === '' ? 'chip-active' : '' }}">
+                All
+            </button>
+            @foreach($categories as $cat)
+            <button type="button" wire:click="filterCategory('{{ $cat->slug }}')" class="chip {{ $category === $cat->slug ? 'chip-active' : '' }}">
+                {{ $cat->name }}
+            </button>
+            @endforeach
+        </div>
+
+        {{-- Search + sort --}}
+        <div class="flex flex-wrap items-center gap-3">
+            <div class="relative flex-1 min-w-[220px] max-w-sm">
+                <input type="text" wire:model.live.debounce.400ms="search" placeholder="Search the collection…" class="form-input text-sm pl-9 w-full">
+                <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <select wire:model.live="sort" class="form-input text-sm w-auto">
+                <option value="">Sort by</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="popular">Most Popular</option>
+            </select>
+            <span wire:loading wire:target="search,sort,filterCategory" class="text-xs text-gray-400 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                Updating…
+            </span>
+        </div>
+    </div>
+    @endif
+
     <div class="mb-6">
         <p class="text-sm text-gray-500">
             {{ $total }} product{{ $total !== 1 ? 's' : '' }} found

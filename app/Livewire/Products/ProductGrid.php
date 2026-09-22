@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Products;
 
+use App\Models\Category;
 use App\Models\Product;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -24,6 +26,21 @@ class ProductGrid extends Component
     public string $sort = '';
 
     public int $perPage = 12;
+
+    /**
+     * When true, renders an inline category/search/sort toolbar above the grid
+     * so the component works as a self-contained, reactive shop section (used
+     * on the onepage). Default false keeps existing pages (e.g. /products,
+     * which has its own external sidebar filters) visually unchanged.
+     */
+    public bool $showToolbar = false;
+
+    #[On('shop-filter-category')]
+    public function filterCategory(string $slug): void
+    {
+        $this->category = $this->category === $slug ? '' : $slug;
+        $this->perPage = 12;
+    }
 
     public function updatedCategory(): void
     {
@@ -95,9 +112,12 @@ class ProductGrid extends Component
         $products = $this->baseQuery()->take($this->perPage)->get();
 
         return view('livewire.products.product-grid', [
-            'products' => $products,
-            'total'    => $total,
-            'hasMore'  => $this->perPage < $total,
+            'products'   => $products,
+            'total'      => $total,
+            'hasMore'    => $this->perPage < $total,
+            'categories' => $this->showToolbar
+                ? Category::where('is_active', true)->orderBy('sort_order')->get()
+                : collect(),
         ]);
     }
 }
